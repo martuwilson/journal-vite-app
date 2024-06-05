@@ -1,6 +1,6 @@
 // acciones que despachan pero internamiente son asincronas
 import { singInWithGoogle } from '../../firebase/providers';
-import { checkingCredentials } from './';
+import { checkingCredentials, login, logout } from './';
 
 export const checkingAuthentication = (email, password) => {
     return async (dispatch) => {
@@ -13,6 +13,10 @@ export const startGoogleSingIn = () => {
     return async (dispatch) => {
         dispatch(checkingCredentials())
 
-        const result = singInWithGoogle()
+        const result = await singInWithGoogle()
+
+        if(!result.ok) return dispatch(logout(result.errorMessage))
+
+        dispatch(login(result))
     };
 }
