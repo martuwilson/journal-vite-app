@@ -34,6 +34,8 @@ export const RegisterPage = () => {
     console.log(formState);
   }
 
+  console.log(displayNameValid);
+
   return (
     <AuthLayout title="Crear cuenta">
       <form onSubmit={onSubmit}>
