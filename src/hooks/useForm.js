@@ -42,7 +42,6 @@ export const useForm = ( initialForm = {}, formValidations= {} ) => {
         }
 
         setFormValidation(formCheckValue);
-        console.log(formCheckValue);
     }
 
     return {
