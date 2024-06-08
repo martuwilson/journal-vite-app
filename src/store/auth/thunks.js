@@ -1,5 +1,5 @@
 // acciones que despachan pero internamiente son asincronas
-import { registerUserWithEmailPassword, singInWithGoogle } from '../../firebase/providers';
+import { loginWithEmailPassword, registerUserWithEmailPassword, singInWithGoogle } from '../../firebase/providers';
 import { checkingCredentials, login, logout } from './';
 
 export const checkingAuthentication = (email, password) => {
@@ -30,5 +30,17 @@ export const startCreatingUserWithEmailPassword = ({email, password, displayName
         if(!ok) return dispatch(logout({errorMessage})); // si la response.ok = false, logout cierra la response y muestra el mensaje de error
 
         dispatch(login({uid, photoURL, email, displayName})) // si la response.ok = true, login cambia el estado de la autenticación a 'authenticated' y almacena los valores de la respuesta
+    }
+}
+
+export const startLoginWithEmailPassword = ({email, password}) => {
+    return async (dispatch) => {
+        dispatch(checkingCredentials()) // Cambiar el estado de la autenticación a 'checking'
+
+        const resp = await loginWithEmailPassword({email, password})
+
+        if(!resp.ok) return dispatch(logout({errorMessage: resp.errorMessage}))
+
+        dispatch(login(resp))
     }
 }
